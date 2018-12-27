@@ -15,12 +15,22 @@ public class Tasklab {
         return ourInstance;
     }
 
-    public static List<Task> getTaskList(){
+    public  List<Task> getTaskList(){
         List<Task> list = new ArrayList<Task>(ourInstance.mtasks.values());
         return list;
     }
 
     private Tasklab() {
+        mtasks = new LinkedHashMap<UUID,Task>();
+        for (int i = 0; i <10 ; i++) {
+
+            Task task = new Task();
+            task.setDescription("ali");
+            mtasks.put(task.getId(),task);
+        }
+
+
+
     }
 
 

@@ -11,48 +11,12 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/colorPrimary"
-        app:tabIndicatorColor="@android:color/black"
-        app:tabTextColor="@android:color/white">
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/all" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/done" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/undone" />
-    </android.support.design.widget.TabLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycller_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="15">
+        android:layout_weight="17">
 
     </android.support.v7.widget.RecyclerView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:layout_marginRight="5dp"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@android:drawable/ic_input_add" />
 
 </LinearLayout>
