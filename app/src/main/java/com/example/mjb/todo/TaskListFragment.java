@@ -1,8 +1,10 @@
 package com.example.mjb.todo;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.example.mjb.todo.models.Task;
 import com.example.mjb.todo.models.Tasklab;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -23,17 +26,37 @@ import java.util.zip.Inflater;
  */
 public class TaskListFragment extends Fragment {
 
+    private static final String ARG_TASK_ID = "idddddddd" ;
     private RecyclerView mRecyclerView;
     private TaskAdapter mTaskAdapter;
+    private int position;
 
 
+    public static TaskListFragment newInstance(int Position) {
 
-    public static TaskListFragment newInstance(){
-        TaskListFragment taskListFragment = new TaskListFragment();
-        return taskListFragment;
+        Bundle args = new Bundle();
+        args.putInt(ARG_TASK_ID, Position);
+        TaskListFragment fragment = new TaskListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    @Override
+    public void setArguments(@Nullable Bundle args) {
+        super.setArguments(args);
+    }
+
+    public TaskListFragment() {
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        position = getArguments().getInt(ARG_TASK_ID);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,20 +69,36 @@ public class TaskListFragment extends Fragment {
     }
     @Override
     public void onResume() {
+
         super.onResume();
         updateUI();
     }
 
     private void updateUI() {
 
-        List<Task> tasks = Tasklab.getInstance().getTaskList();
-        if (mTaskAdapter == null) {
-            mTaskAdapter = new TaskAdapter(tasks);
-            mRecyclerView.setAdapter(mTaskAdapter);
-        } else {
-//            mCrimeAdapter.setCrimes(crimes);
-            mTaskAdapter.notifyDataSetChanged();
+        List<Task> tasks = new ArrayList<Task>();
+        System.out.println("posss  "+ position);
+        switch (position){
+
+            case 0 :  tasks = Tasklab.getInstance().getTaskList();
+            break;
+            case 1 :  tasks = Tasklab.getInstance().getDonelist();
+            break;
+            case 2 :  tasks = Tasklab.getInstance().getUnDonelist();
+            break;
         }
+        System.out.println("zee"+tasks.size());
+
+        mTaskAdapter = new TaskAdapter(tasks);
+           mRecyclerView.setAdapter(mTaskAdapter);
+
+//        if (mTaskAdapter == null ) {
+//            mTaskAdapter = new TaskAdapter(tasks);
+//            mRecyclerView.setAdapter(mTaskAdapter);
+//        } else {
+////            mCrimeAdapter.setCrimes(crimes);
+//            mTaskAdapter.notifyDataSetChanged();
+//        }
     }
     private class TaskHolder extends RecyclerView.ViewHolder{
 
@@ -67,6 +106,9 @@ public class TaskListFragment extends Fragment {
       private TextView mDateTextView;
       private TextView mImageTextView;
       private Task mTask;
+
+
+
 
 
 

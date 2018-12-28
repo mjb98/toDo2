@@ -25,12 +25,31 @@ public class Tasklab {
         for (int i = 0; i <10 ; i++) {
 
             Task task = new Task();
-            task.setDescription("ali");
+            task.setDescription(i%2 ==0 ?"ali":"mamad");
+            task.setMdone(i%2 == 0);
             mtasks.put(task.getId(),task);
         }
 
+    }
+    public List<Task> getDonelist(){
+        List<Task> doneTask = new ArrayList<Task>();
+        for(Task task :ourInstance.mtasks.values()){
+            if(task.getMdone() == true){
+                doneTask.add(task);
+            }
 
+        }
+        return doneTask;
+    }
+    public List<Task> getUnDonelist(){
+        List<Task> UndoneTask = new ArrayList<Task>();
+        for(Task task :ourInstance.mtasks.values()){
+            if(task.getMdone() != true){
+                UndoneTask.add(task);
+            }
 
+        }
+        return UndoneTask;
     }
 
 

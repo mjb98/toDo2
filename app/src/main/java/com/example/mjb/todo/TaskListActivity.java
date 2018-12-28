@@ -8,9 +8,6 @@ public class TaskListActivity extends AppCompatActivity {
 
 
 
-    public Fragment createFragment() {
-        return TaskListFragment.newInstance();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
