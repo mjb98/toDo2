@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="17"
-    tools:context=".TaskListFragment">
+    tools:context=".TaskListFragment"
+    tools:layout_editor_absoluteY="81dp">
 
     <!-- TODO: Update blank fragment layout -->
 
 
+    <ImageView
+        android:id="@+id/nothing_imageview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="124dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="124dp"
+        android:foregroundGravity="center"
+        android:src="@drawable/nothing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/recycller_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recycller_view" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycller_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="17">
+        android:layout_height="match_parent"
+        android:layout_weight="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </android.support.v7.widget.RecyclerView>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

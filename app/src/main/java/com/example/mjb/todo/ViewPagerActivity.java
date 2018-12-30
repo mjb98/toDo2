@@ -1,6 +1,8 @@
 package com.example.mjb.todo;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,20 +11,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.mjb.todo.models.Task;
-import com.example.mjb.todo.models.Tasklab;
 
 import java.util.List;
 
 public class ViewPagerActivity extends AppCompatActivity {
 
-   private ViewPager mViewPager;
+
+    private ViewPager mViewPager;
    private List<Task> mTasks;
     TabLayout mTabLayout;
     TabItem mTabItemLeft;
     TabItem mTabItemCenter;
     TabItem mTabItemRight;
+    FloatingActionButton mFloatingActionButton;
 
 
     @Override
@@ -34,6 +38,14 @@ public class ViewPagerActivity extends AppCompatActivity {
         mTabItemLeft = findViewById(R.id.tab_left);
         mTabItemCenter = findViewById(R.id.tab_center);
         mTabItemRight = findViewById(R.id.tab_right);
+        mFloatingActionButton = findViewById(R.id.floatingActionButton);
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = TaskActivity.newIntent(ViewPagerActivity.this,true);
+                startActivity(intent);
+            }
+        });
 
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override

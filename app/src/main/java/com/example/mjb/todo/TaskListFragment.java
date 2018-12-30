@@ -2,6 +2,7 @@ package com.example.mjb.todo;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mjb.todo.models.Task;
@@ -29,6 +31,7 @@ public class TaskListFragment extends Fragment {
     private static final String ARG_TASK_ID = "idddddddd" ;
     private RecyclerView mRecyclerView;
     private TaskAdapter mTaskAdapter;
+    private ImageView nothingImageView;
     private int position;
 
 
@@ -64,6 +67,7 @@ public class TaskListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
         mRecyclerView = view.findViewById(R.id.recycller_view);
+        nothingImageView = view.findViewById(R.id.nothing_imageview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
     }
@@ -71,34 +75,37 @@ public class TaskListFragment extends Fragment {
     public void onResume() {
 
         super.onResume();
+        System.out.println("ey jaaaaaan");
         updateUI();
     }
 
     private void updateUI() {
-
         List<Task> tasks = new ArrayList<Task>();
-        System.out.println("posss  "+ position);
-        switch (position){
+        System.out.println("posss  " + position);
+        switch (position) {
 
-            case 0 :  tasks = Tasklab.getInstance().getTaskList();
-            break;
-            case 1 :  tasks = Tasklab.getInstance().getDonelist();
-            break;
-            case 2 :  tasks = Tasklab.getInstance().getUnDonelist();
-            break;
+            case 0:
+                tasks = Tasklab.getInstance().getTaskList();
+                break;
+            case 1:
+                tasks = Tasklab.getInstance().getDonelist();
+                break;
+            case 2:
+                tasks = Tasklab.getInstance().getUnDonelist();
+                break;
+
         }
-        System.out.println("zee"+tasks.size());
+        if(mTaskAdapter == null) {
 
-        mTaskAdapter = new TaskAdapter(tasks);
-           mRecyclerView.setAdapter(mTaskAdapter);
 
-//        if (mTaskAdapter == null ) {
-//            mTaskAdapter = new TaskAdapter(tasks);
-//            mRecyclerView.setAdapter(mTaskAdapter);
-//        } else {
-////            mCrimeAdapter.setCrimes(crimes);
-//            mTaskAdapter.notifyDataSetChanged();
-//        }
+            mTaskAdapter = new TaskAdapter(tasks);
+            mRecyclerView.setAdapter(mTaskAdapter);
+        }
+        else {
+            mTaskAdapter.setTasks(tasks);
+            mTaskAdapter.notifyDataSetChanged();
+        }
+        nothingImageView.setVisibility(tasks.size() == 0 ? View.VISIBLE : View.GONE);
     }
     private class TaskHolder extends RecyclerView.ViewHolder{
 
@@ -133,6 +140,13 @@ public class TaskListFragment extends Fragment {
                mImageTextView.setText("");
 
            }
+           itemView.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   Intent intent = TaskActivity.newIntent(getActivity(),mTask.getId());
+                   startActivity(intent);
+               }
+           });
 
 
 

@@ -35,6 +35,7 @@ public class Task {
     }
 
     public void setMdone(Boolean mdone) {
+
         this.mdone = mdone;
     }
 
@@ -43,7 +44,7 @@ public class Task {
     }
 
     public Task() {
-        mDate = RandomData.randomDate();
+        mDate = new Date();
         mId   = UUID.randomUUID();
         mdone = false;
 

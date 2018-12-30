@@ -22,13 +22,13 @@ public class Tasklab {
 
     private Tasklab() {
         mtasks = new LinkedHashMap<UUID,Task>();
-        for (int i = 0; i <10 ; i++) {
-
-            Task task = new Task();
-            task.setDescription(i%2 ==0 ?"ali":"mamad");
-            task.setMdone(i%2 == 0);
-            mtasks.put(task.getId(),task);
-        }
+//        for (int i = 0; i <10 ; i++) {
+//
+//            Task task = new Task();
+//            task.setDescription(i%2 ==0 ?"ali":"mamad");
+//            task.setMdone(i%2 == 0);
+//            mtasks.put(task.getId(),task);
+//        }
 
     }
     public List<Task> getDonelist(){
@@ -50,6 +50,25 @@ public class Tasklab {
 
         }
         return UndoneTask;
+    }
+
+    public static void addTask(Task task){
+
+        ourInstance.mtasks.put(task.getId(),task);
+
+    }
+
+    public static Task getTask(UUID id){
+
+        Task task = getInstance().mtasks.get(id);
+        return task;
+
+    }
+
+    public static void deleteTask(Task task){
+
+        ourInstance.mtasks.remove(task.getId());
+
     }
 
 

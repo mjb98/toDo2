@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/background_light"
-            android:drawableStart="@android:drawable/checkbox_on_background"
+            android:drawableStart="@android:drawable/checkbox_off_background"
             android:text="@string/done" />
     </LinearLayout>
 
