@@ -13,6 +13,11 @@ public class Task {
     private Date mDate;
     private Boolean mdone;
     private UUID mId;
+    private String mOwnerUserName;
+
+    public String getOwnerUserName() {
+        return mOwnerUserName;
+    }
 
     public String getDescription() {
         return mDescription;
@@ -30,6 +35,10 @@ public class Task {
         mDate = date;
     }
 
+    public void setOwnerUserName(String ownerUserName) {
+        mOwnerUserName = ownerUserName;
+    }
+
     public Boolean getMdone() {
         return mdone;
     }
@@ -43,10 +52,18 @@ public class Task {
         return mId;
     }
 
-    public Task() {
+    public Task(User user) {
         mDate = new Date();
         mId   = UUID.randomUUID();
         mdone = false;
+        mOwnerUserName = user.getUserName();
+
+    }
+    public Task(User user,UUID id) {
+        mDate = new Date();
+        mId   = id;
+        mdone = false;
+        mOwnerUserName = user.getUserName();
 
     }
 }

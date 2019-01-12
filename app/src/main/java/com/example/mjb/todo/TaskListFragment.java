@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.mjb.todo.models.Task;
 import com.example.mjb.todo.models.Tasklab;
+import com.example.mjb.todo.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +29,21 @@ import java.util.zip.Inflater;
  */
 public class TaskListFragment extends Fragment {
 
+    public static final int MODE_ALL = 0 ;
+    public static final int MODE_DONE =1 ;
+    public static final int MODE_UNDONE =2 ;
+
     private static final String ARG_TASK_ID = "idddddddd" ;
     private RecyclerView mRecyclerView;
     private TaskAdapter mTaskAdapter;
     private ImageView nothingImageView;
     private int position;
+    private static User mUser;
 
 
-    public static TaskListFragment newInstance(int Position) {
-
+    public static TaskListFragment newInstance(int Position,String username) {
+        mUser = new User();
+        mUser.setUserName(username);
         Bundle args = new Bundle();
         args.putInt(ARG_TASK_ID, Position);
         TaskListFragment fragment = new TaskListFragment();
@@ -75,7 +82,6 @@ public class TaskListFragment extends Fragment {
     public void onResume() {
 
         super.onResume();
-        System.out.println("ey jaaaaaan");
         updateUI();
     }
 
@@ -84,20 +90,30 @@ public class TaskListFragment extends Fragment {
         System.out.println("posss  " + position);
         switch (position) {
 
-            case 0:
-                tasks = Tasklab.getInstance().getTaskList();
+            case MODE_ALL:
+                try {
+                    tasks = Tasklab.getInstance(getActivity()).getTaskList(mUser);
+                }catch (Exception a){
+
+                }
                 break;
             case 1:
-                tasks = Tasklab.getInstance().getDonelist();
+                try {
+                    tasks = Tasklab.getInstance(getActivity()).getDonelist(mUser);
+                }catch (Exception a){
+
+                }
                 break;
             case 2:
-                tasks = Tasklab.getInstance().getUnDonelist();
+                try {
+                    tasks = Tasklab.getInstance(getActivity()).getUnDonelist(mUser);
+                }catch (Exception a){
+
+                }
                 break;
 
         }
         if(mTaskAdapter == null) {
-
-
             mTaskAdapter = new TaskAdapter(tasks);
             mRecyclerView.setAdapter(mTaskAdapter);
         }
@@ -138,7 +154,7 @@ public class TaskListFragment extends Fragment {
            }catch (Exception a){
                mDescriptionTextView.setText("");
                mImageTextView.setText("");
-
+a.printStackTrace();
            }
            itemView.setOnClickListener(new View.OnClickListener() {
                @Override
@@ -186,5 +202,6 @@ public class TaskListFragment extends Fragment {
             return mTasks.size();
         }
     }
+
 
 }

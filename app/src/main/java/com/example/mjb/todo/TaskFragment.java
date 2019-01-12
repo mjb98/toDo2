@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import android.widget.TimePicker;
 
 import com.example.mjb.todo.models.Task;
 import com.example.mjb.todo.models.Tasklab;
+import com.example.mjb.todo.models.User;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,11 +44,13 @@ public class TaskFragment extends Fragment {
      TextView mTimeTextview;
      EditText mDescriptionTextView;
      Task mTask;
+     private static String mUsername;
      static Boolean isAdding;
 
 
-    public static TaskFragment newInstance(Boolean isForAdd){
+    public static TaskFragment newInstance(Boolean isForAdd,String username){
         TaskFragment taskFragment = new TaskFragment();
+        mUsername = username;
         isAdding = isForAdd;
          return taskFragment;
 
@@ -68,7 +70,7 @@ public class TaskFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(!isAdding)
-        mTask = Tasklab.getTask((UUID) getArguments().getSerializable(ARG_TASK_ID));
+        mTask = Tasklab.getInstance(getActivity()).getTask((UUID) getArguments().getSerializable(ARG_TASK_ID));
     }
 
     @Override
@@ -81,7 +83,9 @@ public class TaskFragment extends Fragment {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mTask.setOwnerUserName(mUsername);
                 mTask.setDescription(mDescriptionTextView.getText().toString());
+               Tasklab.getInstance(getActivity()).updateTask(mTask);
                 getActivity().finish();
             }
         });
@@ -105,7 +109,7 @@ public class TaskFragment extends Fragment {
                 alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Tasklab.deleteTask(mTask);
+                        Tasklab.getInstance(getActivity()).deleteTask(mTask);
                         getActivity().finish();
 
                     }
@@ -170,13 +174,14 @@ public class TaskFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mTask.setDescription(mDescriptionTextView.getText().toString());
-                Tasklab.addTask(mTask);
+               Tasklab.getInstance(getActivity()).addTask(mTask);
                 getActivity().finish();
             }
         });
 
         if(isAdding){
-            mTask = new Task();
+            mTask = new Task(new User());
+            mTask.setOwnerUserName(mUsername);
             editButton.setEnabled(false);
             doneButton.setEnabled(false);
             deleteButton.setEnabled(false);
@@ -187,11 +192,11 @@ public class TaskFragment extends Fragment {
 
         }else {
             addButton.setVisibility(View.GONE);
-
             mDescriptionTextView.setText(mTask.getDescription());
             setDate(mTask.getDate());
             setTime(mTask.getDate());
             updateEditButtonText();
+
 
 
         }
@@ -204,11 +209,11 @@ public class TaskFragment extends Fragment {
     private void updateEditButtonText() {
         if(mTask.getMdone()){
             doneButton.setText(R.string.done);
-            doneButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.checkbox_off_background,0,0,0);
+            doneButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.checkbox_on_background,0,0,0);
 
         }else {
             doneButton.setText(R.string.undone);
-            doneButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.checkbox_on_background,0,0,0);
+            doneButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.checkbox_off_background,0,0,0);
         }
     }
 

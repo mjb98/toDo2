@@ -1,5 +1,6 @@
 package com.example.mjb.todo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,12 +15,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.mjb.todo.models.Task;
+import com.example.mjb.todo.models.User;
 
 import java.util.List;
 
 public class ViewPagerActivity extends AppCompatActivity {
 
 
+    private static final String USERNAMEID = "usernameid";
     private ViewPager mViewPager;
    private List<Task> mTasks;
     TabLayout mTabLayout;
@@ -27,11 +30,18 @@ public class ViewPagerActivity extends AppCompatActivity {
     TabItem mTabItemCenter;
     TabItem mTabItemRight;
     FloatingActionButton mFloatingActionButton;
+    private String username;
 
+    public static Intent newIntent(Context context, String username){
+        Intent intent = new Intent(context,ViewPagerActivity.class);
+        intent.putExtra(USERNAMEID,username);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        username = getIntent().getStringExtra(USERNAMEID);
         setContentView(R.layout.activity_view_pager);
         mViewPager = findViewById(R.id.task_view_pager);
         mTabLayout = findViewById(R.id.tab_layout);
@@ -42,7 +52,7 @@ public class ViewPagerActivity extends AppCompatActivity {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = TaskActivity.newIntent(ViewPagerActivity.this,true);
+                Intent intent = TaskActivity.newIntent(ViewPagerActivity.this,true,username);
                 startActivity(intent);
             }
         });
@@ -50,7 +60,7 @@ public class ViewPagerActivity extends AppCompatActivity {
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return TaskListFragment.newInstance(position);
+                return TaskListFragment.newInstance(position,username);
             }
             @Nullable
             @Override
