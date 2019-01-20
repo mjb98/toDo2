@@ -4,13 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.mjb.todo.database.TaskBaseHelper;
-import com.example.mjb.todo.database.TaskCursorWrapper;
 import com.example.mjb.todo.database.TaskdbSchema;
 import com.example.mjb.todo.database.UserCursorWrapper;
 
-import java.util.UUID;
+import java.util.List;
 
 public class Userlab {
     private static Userlab ourInstance;
@@ -26,7 +26,7 @@ public class Userlab {
             ourInstance = new Userlab(context);
         return ourInstance;
     }
-    private UserCursorWrapper queryCrimes(String whereClause,String[] whereArgs) {
+    private UserCursorWrapper queryUsers(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 TaskdbSchema.UserTable.NAME,
                 null, // columns - null selects all columns
@@ -43,7 +43,7 @@ public class Userlab {
     }
     public  User getUser(String username,String password) {
 
-        UserCursorWrapper cursor = queryCrimes(
+        UserCursorWrapper cursor = queryUsers(
                 TaskdbSchema.UserTable.Cols.userName + " = ?" +" AND " + TaskdbSchema.UserTable.Cols.passWord + " = ?",new String[]{username,password}
 
         );
@@ -59,7 +59,7 @@ public class Userlab {
     }
     public  User getUser(String username) {
 
-        UserCursorWrapper cursor = queryCrimes(
+        UserCursorWrapper cursor = queryUsers(
                 TaskdbSchema.UserTable.Cols.userName + " = ?",new String[]{username}
 
         );
@@ -85,5 +85,12 @@ public class Userlab {
         values.put(TaskdbSchema.UserTable.Cols.userName,user.getUserName());
         values.put(TaskdbSchema.UserTable.Cols.passWord,user.getPassWord());
         return values;
+    }
+    public void deletaAllTasks(User user){
+        Tasklab tasklab = Tasklab.getInstance(mContext);
+        List<Task> allTasks = tasklab.getTaskList(user);
+        for (Task task : allTasks) {
+            tasklab.deleteTask(task);
+        }
     }
 }

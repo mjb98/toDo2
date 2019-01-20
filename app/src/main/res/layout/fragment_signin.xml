@@ -45,13 +45,17 @@
         android:id="@+id/signin_dohaanacc_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/login_button"
-        android:layout_margin="30dp"
+        android:layout_below="@+id/guest_textview"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
         android:text="Dont have any account"
-        android:textSize="17dp"
         android:textColor="@color/colorPrimary"
-        android:clickable="true"/>
+        android:textSize="17dp" />
 
     <TextView
         android:id="@+id/singin_error_textview"
@@ -65,9 +69,16 @@
         android:textSize="17dp"
         tools:text="not error" />
 
-
-
-
+    <TextView
+        android:id="@+id/guest_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_button"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:text="Log in as a guest"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

@@ -2,14 +2,19 @@ package com.example.mjb.todo;
 
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,6 +23,7 @@ import android.widget.TextView;
 import com.example.mjb.todo.models.Task;
 import com.example.mjb.todo.models.Tasklab;
 import com.example.mjb.todo.models.User;
+import com.example.mjb.todo.models.Userlab;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +57,11 @@ public class TaskListFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.tasklistfragment,menu);
+    }
 
     @Override
     public void setArguments(@Nullable Bundle args) {
@@ -66,6 +77,7 @@ public class TaskListFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_TASK_ID);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -88,6 +100,8 @@ public class TaskListFragment extends Fragment {
     private void updateUI() {
         List<Task> tasks = new ArrayList<Task>();
         System.out.println("posss  " + position);
+
+
         switch (position) {
 
             case MODE_ALL:
@@ -203,5 +217,37 @@ a.printStackTrace();
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch (item.getItemId()){
+            case  R.id.deleteTasks_menu_item:
+                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage("All task will be delete");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Userlab.getInstance(getActivity()).deletaAllTasks(mUser);
+                                updateUI();
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cansle", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+
+
+
+
+
+                default:return super.onOptionsItemSelected(item);
+        }
+
+
+    }
 }
