@@ -13,5 +13,8 @@
     <string name="add">add</string>
     <string name="time">time</string>
     <string name="TIme">Time</string>
+    <string name="taskreport_report">%1$s!
+      The task date is  %2$s, and  the tasks done situation is %3$s
+    </string>
     <string name="date_picker_title">Date of Task:</string>
 </resources>

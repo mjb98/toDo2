@@ -2,11 +2,13 @@ package com.example.mjb.todo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +35,7 @@ public class ViewPagerActivity extends AppCompatActivity {
     TabItem mTabItemCenter;
     TabItem mTabItemRight;
     FloatingActionButton mFloatingActionButton;
+    private Fragment taskListFragment;
     private String username;
 
     public static Intent newIntent(Context context, String username){
@@ -51,20 +54,20 @@ public class ViewPagerActivity extends AppCompatActivity {
         mTabItemLeft = findViewById(R.id.tab_left);
         mTabItemCenter = findViewById(R.id.tab_center);
         mTabItemRight = findViewById(R.id.tab_right);
-        mFloatingActionButton = findViewById(R.id.floatingActionButton);
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = TaskActivity.newIntent(ViewPagerActivity.this,true,username);
-                startActivity(intent);
-            }
-        });
-
+        mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+
+            @Override
+            public int getItemPosition(Object object) {
+// POSITION_NONE makes it possible to reload the PagerAdapter
+                return POSITION_NONE;
+            }
             @Override
             public Fragment getItem(int position) {
-                return TaskListFragment.newInstance(position,username);
+                 taskListFragment = TaskListFragment.newInstance(position,username);
+                return taskListFragment;
             }
+
             @Nullable
             @Override
             public CharSequence getPageTitle(int position) {
@@ -84,8 +87,24 @@ public class ViewPagerActivity extends AppCompatActivity {
                 return 3;
             }
         });
-        mTabLayout.setupWithViewPager(mViewPager,true);
 
+        mTabLayout.setupWithViewPager(mViewPager,true);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mViewPager.getAdapter().notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 

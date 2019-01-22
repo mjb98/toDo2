@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/addtask_menu_item"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Add Task"
+        app:showAsAction="ifRoom|withText" />
+    <item
         android:id="@+id/deleteTasks_menu_item"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="Delete All Tasks"

@@ -28,7 +28,7 @@ public class Tasklab {
 
     public List<Task> getTaskList(User user) {
         List<Task> tasks = new ArrayList<>();
-        TaskCursorWrapper cursor = queryCrimes(TaskdbSchema.TaskTable.Cols.ownerUser +" = ? ",new String[]{user.getUserName()});
+        TaskCursorWrapper cursor = queryTasks(TaskdbSchema.TaskTable.Cols.ownerUser +" = ? ",new String[]{user.getUserName()});
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -42,7 +42,7 @@ public class Tasklab {
     }
     public List<Task> getDonelist(User user) {
         List<Task> tasks = new ArrayList<>();
-        TaskCursorWrapper cursor = queryCrimes(TaskdbSchema.TaskTable.Cols.isDone + " = "+1 + " AND " + TaskdbSchema.TaskTable.Cols.ownerUser +" = ? ",new String[]{user.getUserName()});
+        TaskCursorWrapper cursor = queryTasks(TaskdbSchema.TaskTable.Cols.isDone + " = "+1 + " AND " + TaskdbSchema.TaskTable.Cols.ownerUser +" = ? ",new String[]{user.getUserName()});
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -56,7 +56,7 @@ public class Tasklab {
     }
     public List<Task> getUnDonelist(User user) {
         List<Task> tasks = new ArrayList<>();
-        TaskCursorWrapper cursor = queryCrimes(TaskdbSchema.TaskTable.Cols.isDone + " = "+0 + " AND " + TaskdbSchema.TaskTable.Cols.ownerUser +" = ? ",new String[]{user.getUserName()});
+        TaskCursorWrapper cursor = queryTasks(TaskdbSchema.TaskTable.Cols.isDone + " = "+0 + " AND " + TaskdbSchema.TaskTable.Cols.ownerUser +" = ? ",new String[]{user.getUserName()});
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -88,7 +88,7 @@ public class Tasklab {
 
     public  Task getTask(UUID id) {
 
-        TaskCursorWrapper cursor = queryCrimes(
+        TaskCursorWrapper cursor = queryTasks(
                 TaskdbSchema.TaskTable.Cols.UUID + " = ?",
                 new String[] { id.toString() }
         );
@@ -121,7 +121,7 @@ public class Tasklab {
         return values;
     }
 
-    private TaskCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
+    private TaskCursorWrapper queryTasks(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 TaskdbSchema.TaskTable.NAME,
                 null, // columns - null selects all columns

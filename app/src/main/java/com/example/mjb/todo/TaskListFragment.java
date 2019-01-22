@@ -1,9 +1,7 @@
 package com.example.mjb.todo;
 
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,19 +25,22 @@ import com.example.mjb.todo.models.Userlab;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskListFragment extends Fragment {
+
+
+public class TaskListFragment extends Fragment   {
 
     public static final int MODE_ALL = 0 ;
     public static final int MODE_DONE =1 ;
     public static final int MODE_UNDONE =2 ;
 
     private static final String ARG_TASK_ID = "idddddddd" ;
+    public static final String SHOCRIME_TAG = "shocrime_tag";
+    public static final String edittasdialoughe = "editextfragmnt";
     private RecyclerView mRecyclerView;
     private TaskAdapter mTaskAdapter;
     private ImageView nothingImageView;
@@ -97,9 +98,10 @@ public class TaskListFragment extends Fragment {
         updateUI();
     }
 
-    private void updateUI() {
+    protected void updateUI() {
         List<Task> tasks = new ArrayList<Task>();
         System.out.println("posss  " + position);
+
 
 
         switch (position) {
@@ -107,6 +109,7 @@ public class TaskListFragment extends Fragment {
             case MODE_ALL:
                 try {
                     tasks = Tasklab.getInstance(getActivity()).getTaskList(mUser);
+                    mTaskAdapter.notifyDataSetChanged();
                 }catch (Exception a){
 
                 }
@@ -114,6 +117,8 @@ public class TaskListFragment extends Fragment {
             case 1:
                 try {
                     tasks = Tasklab.getInstance(getActivity()).getDonelist(mUser);
+                    mTaskAdapter.notifyDataSetChanged();
+
                 }catch (Exception a){
 
                 }
@@ -121,6 +126,8 @@ public class TaskListFragment extends Fragment {
             case 2:
                 try {
                     tasks = Tasklab.getInstance(getActivity()).getUnDonelist(mUser);
+                    mTaskAdapter.notifyDataSetChanged();
+
                 }catch (Exception a){
 
                 }
@@ -142,6 +149,7 @@ public class TaskListFragment extends Fragment {
       private TextView mDescriptionTextView;
       private TextView mDateTextView;
       private TextView mImageTextView;
+      private TextView mEditButton;
       private Task mTask;
 
 
@@ -154,6 +162,7 @@ public class TaskListFragment extends Fragment {
             mDescriptionTextView = itemView.findViewById(R.id.list_item_task_description);
             mDateTextView = itemView.findViewById(R.id.list_item_task_date);
             mImageTextView = itemView.findViewById(R.id.image_textview);
+            mEditButton = itemView.findViewById(R.id.item_edit_button);
         }
         public void bind(Task task) {
             mTask = task;
@@ -173,8 +182,26 @@ a.printStackTrace();
            itemView.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   Intent intent = TaskActivity.newIntent(getActivity(),mTask.getId());
-                   startActivity(intent);
+//                   Intent intent = TaskActivity.newIntent(getActivity(),mTask.getId());
+//                   startActivity(intent);
+                   ShowTaskFragment showTaskFragment = ShowTaskFragment.newInstance(mTask.getId());
+                   showTaskFragment.show(getFragmentManager(), SHOCRIME_TAG);
+               }
+           });
+           mEditButton.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+
+                   EditTaskFragment editTaskFragment = EditTaskFragment.newInstance(mTask.getId(),false);
+                   editTaskFragment.setTargetFragment(TaskListFragment.this,12);
+                   editTaskFragment.show(getFragmentManager(), edittasdialoughe);
+
+
+
+
+
+
+
                }
            });
 
@@ -240,8 +267,12 @@ a.printStackTrace();
                     }
                 });
                 alertDialog.show();
+                break;
 
-
+            case R.id.addtask_menu_item:
+                EditTaskFragment editTaskFragment = EditTaskFragment.newInstance(mUser.getUserName(),true);
+                editTaskFragment.setTargetFragment(TaskListFragment.this,0);
+                editTaskFragment.show(getFragmentManager(),"32");
 
 
 
@@ -249,5 +280,8 @@ a.printStackTrace();
         }
 
 
+        return true;
     }
+
 }
+

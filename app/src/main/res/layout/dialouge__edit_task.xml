@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp">
+
+
+    <EditText
+        android:id="@+id/edittask_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="false"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="16dp"
+        android:layout_toRightOf="@+id/task_imageview"
+        android:hint="DESCRIPTION"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/Edittask_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edittask_description"
+        android:layout_alignLeft="@+id/edittask_description"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:textColor="@android:color/black"
+        tools:text="Date" />
+
+    <TextView
+        android:id="@+id/edittask_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Edittask_date"
+        android:layout_alignLeft="@+id/Edittask_date"
+        android:layout_alignParentStart="false"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/black"
+        tools:text="Time" />
+
+    <Button
+        android:id="@+id/edittask_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edittask_time"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="false"
+        android:text="DONE" />
+
+    <CheckBox
+        android:id="@+id/edittask_checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButton2"
+        android:layout_alignBottom="@+id/edittask_button"
+        android:layout_alignParentBottom="false"
+        android:layout_marginLeft="8dp"
+        android:text="IsDone" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/task_imageview"
+        android:layout_width="79dp"
+        android:layout_height="70dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="true"
+        android:src="@drawable/black" />
+
+
+
+    <ImageButton
+        android:id="@+id/camerabutton"
+        android:layout_width="42dp"
+        android:layout_height="38dp"
+        android:layout_below="@+id/task_imageview"
+        android:layout_alignStart="@+id/task_imageview"
+        android:layout_alignLeft="@+id/task_imageview"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="0dp"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+</RelativeLayout>
