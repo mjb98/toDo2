@@ -30,10 +30,10 @@ public class ShowTaskFragment extends DialogFragment {
     String strDateFormat1 = "yyyy-MM-dd";
     String strDateFormat = "hh:mm:ss ";
 
-    public static ShowTaskFragment newInstance(UUID TaskID) {
+    public static ShowTaskFragment newInstance(Long TaskID) {
 
         Bundle args = new Bundle();
-        args.putSerializable(UUID_CODE,TaskID);
+        args.putLong(UUID_CODE,TaskID);
         ShowTaskFragment fragment = new ShowTaskFragment();
         fragment.setArguments(args);
         return fragment;
@@ -69,7 +69,7 @@ public class ShowTaskFragment extends DialogFragment {
                 getDialog().dismiss();
             }
         });
-        mTask = Tasklab.getInstance(getActivity()).getTask((UUID) getArguments().getSerializable(UUID_CODE));
+        mTask = Tasklab.getInstance().getTask( getArguments().getLong(UUID_CODE));
         DescriptionTextView.setText(mTask.getDescription());
         DateTextView.setText(new SimpleDateFormat(strDateFormat1).format(mTask.getDate()));
         TimeTextView.setText(new SimpleDateFormat(strDateFormat).format(mTask.getDate()));

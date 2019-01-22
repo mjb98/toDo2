@@ -2,6 +2,7 @@ package com.example.mjb.todo;
 
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,9 +23,13 @@ import com.example.mjb.todo.models.Task;
 import com.example.mjb.todo.models.Tasklab;
 import com.example.mjb.todo.models.User;
 import com.example.mjb.todo.models.Userlab;
+import com.example.mjb.todo.utils.PictureUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -108,16 +113,16 @@ public class TaskListFragment extends Fragment   {
 
             case MODE_ALL:
                 try {
-                    tasks = Tasklab.getInstance(getActivity()).getTaskList(mUser);
-                    mTaskAdapter.notifyDataSetChanged();
+                    tasks = Tasklab.getInstance().getTaskList(mUser);
+
                 }catch (Exception a){
 
                 }
                 break;
             case 1:
                 try {
-                    tasks = Tasklab.getInstance(getActivity()).getDonelist(mUser);
-                    mTaskAdapter.notifyDataSetChanged();
+                    tasks = Tasklab.getInstance().getDonelist(mUser);
+
 
                 }catch (Exception a){
 
@@ -125,8 +130,8 @@ public class TaskListFragment extends Fragment   {
                 break;
             case 2:
                 try {
-                    tasks = Tasklab.getInstance(getActivity()).getUnDonelist(mUser);
-                    mTaskAdapter.notifyDataSetChanged();
+                    tasks = Tasklab.getInstance().getUnDonelist(mUser);
+
 
                 }catch (Exception a){
 
@@ -142,7 +147,7 @@ public class TaskListFragment extends Fragment   {
             mTaskAdapter.setTasks(tasks);
             mTaskAdapter.notifyDataSetChanged();
         }
-        nothingImageView.setVisibility(tasks.size() == 0 ? View.VISIBLE : View.GONE);
+        nothingImageView.setVisibility(tasks.size() == 0 ? View.VISIBLE : View.INVISIBLE);
     }
     private class TaskHolder extends RecyclerView.ViewHolder{
 
@@ -151,6 +156,7 @@ public class TaskListFragment extends Fragment   {
       private TextView mImageTextView;
       private TextView mEditButton;
       private Task mTask;
+      private CircleImageView mCircleImageView;
 
 
 
@@ -163,10 +169,30 @@ public class TaskListFragment extends Fragment   {
             mDateTextView = itemView.findViewById(R.id.list_item_task_date);
             mImageTextView = itemView.findViewById(R.id.image_textview);
             mEditButton = itemView.findViewById(R.id.item_edit_button);
+            mCircleImageView = itemView.findViewById(R.id.black_circle_imageview);
+
         }
         public void bind(Task task) {
             mTask = task;
             mDateTextView.setText(task.getDate().toString());
+
+            try {
+                File imagefile = new File(mTask.getPhotoFileAdress());
+
+                if(imagefile != null && imagefile.exists()){
+                    mImageTextView.setVisibility(View.INVISIBLE);
+                    Bitmap bitmap = PictureUtils.getScaledBitmap(
+                            imagefile.getPath(),80,80);
+                    mCircleImageView.setImageBitmap(bitmap);
+                }
+            }catch (Exception b){
+                mCircleImageView.setImageResource(R.drawable.black);
+                mImageTextView.setVisibility(View.VISIBLE);
+            }
+
+
+
+
            try{
                String description = task.getDescription();
 

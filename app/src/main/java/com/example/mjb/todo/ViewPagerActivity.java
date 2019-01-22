@@ -2,25 +2,17 @@ package com.example.mjb.todo;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
-import com.example.mjb.todo.database.TaskdbSchema;
 import com.example.mjb.todo.models.Task;
-import com.example.mjb.todo.models.Tasklab;
-import com.example.mjb.todo.models.User;
-import com.example.mjb.todo.models.Userlab;
 
 import java.util.List;
 

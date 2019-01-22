@@ -56,11 +56,11 @@ public class TaskFragment extends Fragment {
 
     }
 
-    public static TaskFragment newInstance(UUID taskId){
+    public static TaskFragment newInstance(Long taskId){
         TaskFragment taskFragment = new TaskFragment();
         isAdding = false;
         Bundle args = new Bundle();
-        args.putSerializable(ARG_TASK_ID, taskId);
+        args.putLong(ARG_TASK_ID, taskId);
         taskFragment.setArguments(args);
         return taskFragment;
 
@@ -70,7 +70,7 @@ public class TaskFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(!isAdding)
-        mTask = Tasklab.getInstance(getActivity()).getTask((UUID) getArguments().getSerializable(ARG_TASK_ID));
+        mTask = Tasklab.getInstance().getTask( getArguments().getLong(ARG_TASK_ID));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class TaskFragment extends Fragment {
             public void onClick(View v) {
                 mTask.setOwnerUserName(mUsername);
                 mTask.setDescription(mDescriptionTextView.getText().toString());
-               Tasklab.getInstance(getActivity()).updateTask(mTask);
+               Tasklab.getInstance().updateTask(mTask);
                 getActivity().finish();
             }
         });
@@ -109,7 +109,7 @@ public class TaskFragment extends Fragment {
                 alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Tasklab.getInstance(getActivity()).deleteTask(mTask);
+                        Tasklab.getInstance().deleteTask(mTask);
                         getActivity().finish();
 
                     }
@@ -174,7 +174,7 @@ public class TaskFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mTask.setDescription(mDescriptionTextView.getText().toString());
-               Tasklab.getInstance(getActivity()).addTask(mTask);
+               Tasklab.getInstance().addTask(mTask);
                 getActivity().finish();
             }
         });

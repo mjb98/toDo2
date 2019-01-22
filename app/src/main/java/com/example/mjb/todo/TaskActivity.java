@@ -18,7 +18,7 @@ public class TaskActivity extends SingleFragmentActivity {
     public static final String ADD_KEY = "addkey";
     private static final String ADD_USERNAME = "userkey";
     private boolean isAdding;
-    private UUID taskId;
+    private Long taskId;
     private String username;
 
     @Override
@@ -31,7 +31,7 @@ public class TaskActivity extends SingleFragmentActivity {
         return TaskFragment.newInstance(isAdding,username);
         }
         else {
-            taskId = (UUID) getIntent().getSerializableExtra(CRIME_CODE);
+            taskId =  getIntent().getLongExtra(CRIME_CODE,-1);
             return TaskFragment.newInstance(taskId);
         }
     }

@@ -39,10 +39,10 @@
         android:id="@+id/black_circle_imageview"
         android:layout_width="82dp"
         android:layout_height="67dp"
+        android:src="@drawable/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/black" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/image_textview"
